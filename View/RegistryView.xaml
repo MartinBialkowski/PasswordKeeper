@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="PasswordsKeeper.View.RegistryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <StackPanel Style="{StaticResource GradientPanelBlue}">
+        <StackPanel.Resources>
+            <DataTemplate DataType="{x:Type ValidationError}">
+                <TextBlock
+                    FontStyle="Italic" Foreground="Red" HorizontalAlignment="Left"
+                    Margin="0,1" Text="{Binding ErrorContent}"
+                    />
+            </DataTemplate>
+        </StackPanel.Resources>
+        <Label 
+            FontSize="14" FontWeight="Bold" Margin="5" Content="Web Site"
+            Target="{Binding ElementName=cbWebSite}"
+            />
+        <ComboBox
+            x:Name="cbWebSite" Margin="5,0" MinWidth="200"
+            ItemsSource="{Binding WebSiteList}"
+            DisplayMemberPath="address"
+            SelectedItem="{Binding WebSite}"
+            />
+        <Label 
+            FontSize="14" FontWeight="Bold" Margin="5" Content="E-Mail"
+            Target="{Binding ElementName=cbMail}"
+            />
+        <ComboBox
+            x:Name="cbMail" Margin="5, 0"
+            ItemsSource="{Binding EmailList}"
+            DisplayMemberPath="username"
+            SelectedItem="{Binding Mail}"
+            />
+        <Label FontSize="14" FontWeight="Bold" Margin="5" Content="Username"
+               Target="{Binding ElementName=txtUsername}"
+               />
+        <TextBox
+            x:Name="txtUsername" Margin="5, 0"
+            Text="{Binding NewUsername, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Validation.ErrorTemplate="{x:Null}"
+            />
+        <ContentPresenter
+            Content="{Binding ElementName=txtUsername, Path=(Validation.Errors).CurrentItem}"
+            />
+        <Label 
+            FontSize="14" FontWeight="Bold" Margin="5" Content="Password"
+            Target="{Binding ElementName=txtPassword}"
+            />
+        <TextBox
+            x:Name="txtPassword" Margin="5, 0"
+            Text="{Binding NewPassword, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Validation.ErrorTemplate="{x:Null}"
+            />
+        <ContentPresenter
+            Content="{Binding ElementName=txtPassword, Path=(Validation.Errors).CurrentItem}"
+            />
+        <WrapPanel Margin="30">
+            <Button Content="_Save" Width="60" Margin="30, 0"
+                    Command="{Binding SaveCommand.Command}" IsDefault="True"
+                    />
+            <Button Content="_Cancel" Width="60" 
+                    Command="{Binding CloseCommand}" IsCancel="True"/>
+        </WrapPanel>
+    </StackPanel>
+</UserControl>
